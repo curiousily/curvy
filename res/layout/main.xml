@@ -3,11 +3,33 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/background"
     >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Hello World, MainActivity"
-    />
+    <ImageView android:layout_height="wrap_content"
+               android:layout_width="wrap_content"
+               android:layout_gravity="center"
+               android:layout_marginTop="40dp"
+               android:src="@drawable/logo" />
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="220dp"
+                  android:layout_height="fill_parent"
+                  android:layout_marginTop="20dp"
+                  android:layout_gravity="center_horizontal"
+                  >
+        <Button android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Casteljau Algorithm"
+                android:onClick="casteljauHandler"/>
+        <Button android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Increase Degree"
+                android:onClick="increaseDegreeHandler"/>
+        <Button android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="New Point"
+                android:onClick="newPointHandler"/>
+        <Button android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Exit"/>
+    </LinearLayout>
 </LinearLayout>
-
