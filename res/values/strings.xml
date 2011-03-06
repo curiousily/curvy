@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MainActivity</string>
+    <string name="app_name">Curvy</string>
+    <string name="point_label">Point</string>
+    <string name="x_coordinate_hint">x</string>
+    <string name="y_coordinate_hint">y</string>
+    <string name="done_label">Done</string>
 </resources>

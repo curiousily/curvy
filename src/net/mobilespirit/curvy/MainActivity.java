@@ -22,13 +22,15 @@ public class MainActivity extends Activity
     }
 
     public void casteljauHandler(View view) {
-        Intent intent = new Intent(this, PointPickerActivity.class);
-        intent.putExtra("pointCount", 4);
-        startActivityForResult(intent, CHOOSE_POINTS);
+        Intent intent = new Intent(this, CasteljauTreeActivity.class);
+        startActivity(intent);
+//        Intent intent = new Intent(this, PointPickerActivity.class);
+//        intent.putExtra("pointCount", 4);
+//        startActivityForResult(intent, CHOOSE_POINTS);
     }
 
     public void increaseDegreeHandler(View view) {
-        Intent intent = new Intent(this, CasteljauTreeActivity.class);
+        Intent intent = new Intent(this, PointPickerActivity.class);
         startActivity(intent);
     }
 
