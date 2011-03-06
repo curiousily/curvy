@@ -1,0 +1,14 @@
+<resources>
+    <style name="menu_layout">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">220dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+    <style name="logo" parent="wrap_both">
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">40dp</item>
+    </style>
+    <style name="menu_button" parent="fill_width_wrap_height" />
+</resources>

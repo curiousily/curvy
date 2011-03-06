@@ -1,0 +1,4 @@
+Curvy is simple Android app that computes various algorithms (currently only one) for Bezier Curves.
+The first implemented algorithm is Paul De Casteljau`s algorithm defined as such :
+http://en.wikipedia.org/wiki/De_Casteljau's_algorithm
+The project is work in progress so keep in mind that some commits might not be stable!

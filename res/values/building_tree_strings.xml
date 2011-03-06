@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="building_tree_progress_title">Computing...</string>
+    <string name="building_tree_init">Initializing the building tree process...</string>
+    <string name="building_coordinates_done">Building coordinates completed...</string>
+    <string name="building_tree_done">Building the tree completed...</string>
+    <string name="building_image_done">Image creation completed...</string>
+    <string name="saving_image_done">Image saving completed...</string>
+</resources>

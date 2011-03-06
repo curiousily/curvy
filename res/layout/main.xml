@@ -1,35 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    style="@style/vertical_linear_layout"
     android:background="@drawable/background"
     >
-    <ImageView android:layout_height="wrap_content"
-               android:layout_width="wrap_content"
-               android:layout_gravity="center"
-               android:layout_marginTop="40dp"
-               android:src="@drawable/logo" />
-    <LinearLayout android:orientation="vertical"
-                  android:layout_width="220dp"
-                  android:layout_height="fill_parent"
-                  android:layout_marginTop="20dp"
-                  android:layout_gravity="center_horizontal"
-                  >
-        <Button android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Casteljau Algorithm"
-                android:onClick="casteljauHandler"/>
-        <Button android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Increase Degree"
+    <ImageView style="@style/logo" android:src="@drawable/logo" />
+    <LinearLayout style="@style/menu_layout" >
+        <Button style="@style/menu_button"
+                android:text="@string/casteljau_button"
+                android:onClick="casteljauAlgorithmHandler"/>
+        <Button style="@style/menu_button"
+                android:text="@string/increase_degree_button"
                 android:onClick="increaseDegreeHandler"/>
-        <Button android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="New Point"
-                android:onClick="newPointHandler"/>
-        <Button android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Exit"/>
+        <Button style="@style/menu_button"
+                android:text="@string/exit_button"/>
     </LinearLayout>
 </LinearLayout>

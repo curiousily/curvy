@@ -12,7 +12,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.view.Window;
-import net.mobilespirit.curvy.domain.Point.Point2D;
+import net.mobilespirit.curvy.R;
+import net.mobilespirit.curvy.domain.point.Point2D;
 import net.mobilespirit.curvy.domain.curve.BezierCurve;
 import net.mobilespirit.curvy.domain.tree.CasteljauTree;
 import net.mobilespirit.curvy.painter.CasteljauTreePainter;
@@ -29,22 +30,42 @@ import java.util.List;
  */
 public class CasteljauTreeActivity extends Activity {
 
-//    private int id;
+    private static final int PROGRESS_DIALOG_ID = 1;
+    private static final String IMAGE_TITLE = "casteljau";
+    private static final String IMAGE_DESCRIPTION = "casteljau";
+
+    private static final String PROGRESS_KEY = "progress";
+
+    private static final int VIEW_IMAGE = 0;
 
     private String imagePath;
 
     private ProgressDialog progressDialog;
 
-    private static final int PROGRESS_DIALOG = 1;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message message) {
+            Bundle data = message.getData();
+            progressDialog.setMessage(data.getString(PROGRESS_KEY));
+        }
+    };
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        showDialog(PROGRESS_DIALOG_ID);
+    }
 
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
-            case PROGRESS_DIALOG:
+            case PROGRESS_DIALOG_ID:
                 progressDialog = new ProgressDialog(this);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                progressDialog.setTitle("Computing...");
-                progressDialog.setMessage("Initializing the building tree process...");
+                progressDialog.setTitle(getString(R.string.building_tree_progress_title));
+                progressDialog.setMessage(getString(R.string.building_tree_init));
                 return progressDialog;
             default:
                 return  null;
@@ -54,7 +75,7 @@ public class CasteljauTreeActivity extends Activity {
     @Override
     protected void onPrepareDialog(int id, Dialog dialog) {
         switch (id) {
-            case PROGRESS_DIALOG:
+            case PROGRESS_DIALOG_ID:
                 progressDialog.setProgress(0);
                 double[] coordinates = getIntent().getDoubleArrayExtra("coordinates");
                 Double[] newCoordinates = new Double[coordinates.length];
@@ -66,72 +87,58 @@ public class CasteljauTreeActivity extends Activity {
         }
     }
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        showDialog(PROGRESS_DIALOG);
-    }
-
-    private void onBuildComplete(String imagePath) {
-        dismissDialog(PROGRESS_DIALOG);
-        this.imagePath = imagePath;
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-
-        intent.setDataAndType(Uri.parse(imagePath), "image/png");
-        startActivityForResult(intent, 0);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);    
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case 0:
+            case VIEW_IMAGE:
                 getContentResolver().delete(Uri.parse(imagePath), null, null);
                 finish();
             break;
         }
     }
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message message) {
-            Bundle data = message.getData();
-            progressDialog.setMessage(data.getString("progress"));
-        }
-    };
+    private void onBuildComplete(String imagePath) {
+        dismissDialog(PROGRESS_DIALOG_ID);
+        this.imagePath = imagePath;
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+
+        intent.setDataAndType(Uri.parse(imagePath), "image/png");
+        startActivityForResult(intent, VIEW_IMAGE);
+    }
 
     private class BuildCasteljauTreeTask extends AsyncTask<Double[], Integer, String> {
 
         @Override
         protected String doInBackground(Double[]... coordinatesArray) {
-            Double[] coordinates = coordinatesArray[0];
-            Bundle bundle = new Bundle();
-//            bundle.putString("progress", "Preparing coordinates creation");
+            List<Point2D> pointList = buildPointList(coordinatesArray[0]);
+            sendProgressMessage(R.string.building_coordinates_done);
+            BezierCurve curve = new BezierCurve(0.4, pointList);
+            CasteljauTree tree = curve.buildCasteljauTree();
+            sendProgressMessage(R.string.building_tree_done);
+            Bitmap bitmap = CasteljauTreePainter.createBitmap(tree);
+            sendProgressMessage(R.string.building_image_done);
+            imagePath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, IMAGE_TITLE, IMAGE_DESCRIPTION);
+            sendProgressMessage(R.string.saving_image_done);
+            return imagePath;
+        }
 
+        private List<Point2D> buildPointList(Double[] coordinates) {
             List<Point2D> pointList = new ArrayList<Point2D>(coordinates.length);
             for(int i = 0; i < coordinates.length; i+=2) {
                 Point2D point = new Point2D(coordinates[i], coordinates[i + 1]);
                 pointList.add(point);
             }
-            bundle.putString("progress", "Building coordinates complete");
+            return pointList;
+        }
 
+        private void sendProgressMessage(int resourceId) {
+            Bundle bundle = new Bundle();
+            bundle.putString(PROGRESS_KEY, getString(resourceId));
             Message message = handler.obtainMessage();
             message.setData(bundle);
             handler.sendMessage(message);
-
-            BezierCurve curve = new BezierCurve(0.4, pointList);
-            Bitmap bitmap = CasteljauTreePainter.createBitmap(curve.buildCasteljauTree());
-
-            bundle.putString("progress", "Building the tree complete");
-
-            message = handler.obtainMessage();
-            message.setData(bundle);
-            handler.sendMessage(message);
-
-            imagePath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "casteljau", "casteljau");
-            return imagePath;
         }
 
         @Override

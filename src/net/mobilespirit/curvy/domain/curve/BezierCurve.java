@@ -1,6 +1,6 @@
 package net.mobilespirit.curvy.domain.curve;
 
-import net.mobilespirit.curvy.domain.Point.Point2D;
+import net.mobilespirit.curvy.domain.point.Point2D;
 import net.mobilespirit.curvy.domain.tree.CasteljauTree;
 
 import java.util.ArrayList;

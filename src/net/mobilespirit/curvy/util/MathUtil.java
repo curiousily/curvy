@@ -1,11 +1,11 @@
 package net.mobilespirit.curvy.util;
 
 /**
- * Bezier curves - University related project
- * User: Vini
- * Date: 01-02-2011
- * Time: 14:44
- * Package: com.vini.geometry.util
+ * Curvy - university related project
+ * User: Venelin Valkov <valkov@mobile-spirit.net>
+ * Date: 06-03-2011
+ * Time: 23-15
+ * Package: net.mobilespirit.curvy.util
  */
 public class MathUtil {
     public static int progression(int n) {

@@ -1,15 +1,19 @@
 package net.mobilespirit.curvy.painter;
 
-import android.graphics.*;
-import net.mobilespirit.curvy.domain.Point.Point2D;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import net.mobilespirit.curvy.domain.point.Point2D;
 import net.mobilespirit.curvy.domain.tree.CasteljauTree;
 import net.mobilespirit.curvy.domain.tree.Node;
 
 /**
  * Curvy - university related project
  * User: Venelin Valkov <valkov@mobile-spirit.net>
- * Date: 3/4/11
- * Time: 3:40 PM
+ * Date: 06-03-2011
+ * Time: 23-15
+ * Package: net.mobilespirit.curvy.painter
  */
 public class CasteljauTreePainter {
 

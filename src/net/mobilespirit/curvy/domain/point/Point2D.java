@@ -1,13 +1,13 @@
-package net.mobilespirit.curvy.domain.Point;
+package net.mobilespirit.curvy.domain.point;
 
 import net.mobilespirit.curvy.domain.Entity2D;
 
 /**
- * Bezier curves - University related project
- * User: Vini
- * Date: 01-02-2011
- * Time: 13:59
- * Package: com.vini.geometry.entity.Point
+ * Curvy - university related project
+ * User: Venelin Valkov <valkov@mobile-spirit.net>
+ * Date: 06-03-2011
+ * Time: 23-15
+ * Package: net.mobilespirit.curvy.domain.point
  */
 public class Point2D extends Entity2D {
 

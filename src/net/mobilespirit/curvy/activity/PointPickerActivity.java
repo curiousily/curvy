@@ -1,12 +1,9 @@
 package net.mobilespirit.curvy.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +82,6 @@ public class PointPickerActivity extends Activity {
                 Intent intent = new Intent(PointPickerActivity.this, CasteljauTreeActivity.class);
                 double[] coordinates = new double[coordinateInputs.size()];
                 for(int i = 0; i < coordinateInputs.size(); i++) {
-//                    Log.d("Picker", coordinateInputs.get(i).getText().toString());
                     coordinates[i] = Double.valueOf(coordinateInputs.get(i).getText().toString());
                 }
                 intent.putExtra("coordinates", coordinates);

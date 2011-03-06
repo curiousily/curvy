@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="casteljau_button">Casteljau Algorithm</string>
+    <string name="increase_degree_button">Increase Degree</string>
+    <string name="exit_button">Exit</string>
+</resources>
