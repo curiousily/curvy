@@ -1,6 +1,5 @@
 package net.mobilespirit.curvy.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +13,7 @@ import net.mobilespirit.curvy.R;
  * Time: 23-15
  * Package: net.mobilespirit.curvy.activity
  */
-public class MainActivity extends Activity
+public class MainActivity extends BaseCurvyActivity
 {
 
     @Override
@@ -25,6 +24,17 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        View editPointsButton = findViewById(R.id.edit_points_button);
+        int visibility = View.GONE;
+        if(getCurvyApplication().hasPoints()) {
+            visibility = View.VISIBLE;
+        }
+        editPointsButton.setVisibility(visibility);
+    }
+
     public void casteljauAlgorithmHandler(View view) {
         Intent intent = new Intent(this, PointPickerActivity.class);
         startActivity(intent);
@@ -32,5 +42,10 @@ public class MainActivity extends Activity
 
     public void increaseDegreeHandler(View view) {
         
+    }
+
+    public void editPointsHandler(View view) {
+        Intent intent = new Intent(this, PointPickerActivity.class);
+        startActivity(intent);
     }
 }

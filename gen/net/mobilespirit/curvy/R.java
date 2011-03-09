@@ -15,24 +15,29 @@ public final class R {
         public static final int icon=0x7f020001;
         public static final int logo=0x7f020002;
     }
+    public static final class id {
+        public static final int edit_points_button=0x7f060000;
+    }
     public static final class layout {
         public static final int main=0x7f030000;
     }
     public static final class string {
-        public static final int app_name=0x7f04000d;
+        public static final int add_point_label=0x7f04000e;
+        public static final int app_name=0x7f04000f;
         public static final int building_coordinates_done=0x7f040002;
         public static final int building_image_done=0x7f040004;
         public static final int building_tree_done=0x7f040003;
         public static final int building_tree_init=0x7f040001;
         public static final int building_tree_progress_title=0x7f040000;
         public static final int casteljau_button=0x7f040006;
-        public static final int done_label=0x7f04000c;
-        public static final int exit_button=0x7f040008;
+        public static final int done_label=0x7f04000d;
+        public static final int edit_points_button=0x7f040008;
+        public static final int exit_button=0x7f040009;
         public static final int increase_degree_button=0x7f040007;
-        public static final int point_label=0x7f040009;
+        public static final int point_label=0x7f04000a;
         public static final int saving_image_done=0x7f040005;
-        public static final int x_coordinate_hint=0x7f04000a;
-        public static final int y_coordinate_hint=0x7f04000b;
+        public static final int x_coordinate_hint=0x7f04000b;
+        public static final int y_coordinate_hint=0x7f04000c;
     }
     public static final class style {
         public static final int fill_both=0x7f050006;

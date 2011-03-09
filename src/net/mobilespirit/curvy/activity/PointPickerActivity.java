@@ -1,15 +1,12 @@
 package net.mobilespirit.curvy.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.*;
-import net.mobilespirit.curvy.R;
+import net.mobilespirit.curvy.domain.point.Point2D;
+import net.mobilespirit.curvy.view.PointPickerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,77 +18,64 @@ import java.util.List;
  * Time: 14:30
  * Package: net.mobilespirit.curvy.activity
  */
-public class PointPickerActivity extends Activity {
+public class PointPickerActivity extends BaseCurvyActivity {
+
+    private PointPickerView pointPickerView;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
         int pointCount = getIntent().getIntExtra("pointCount", 3);
+        pointPickerView = new PointPickerView(this, pointCount);
+        setContentView(pointPickerView);
+        pointPickerView.setOnAddPointClickListener(new View.OnClickListener() {
 
-        LinearLayout root = new LinearLayout(this);
-        root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setOrientation(LinearLayout.VERTICAL);
-        LinearLayout.LayoutParams rootParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT);
-        root.setLayoutParams(rootParams);
+            @Override
+            public void onClick(View view) {
+                pointPickerView.addPoint();
+            }
+        });
 
-        TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT);
-        TableLayout table = new TableLayout(this);
-        table.setGravity(Gravity.CENTER_HORIZONTAL);
-        table.setLayoutParams(params);
-        TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-
-        final List<EditText> coordinateInputs = new ArrayList<EditText>();
-        for(int i = 0; i < pointCount; i++) {
-            
-            TableRow row = new TableRow(this);
-            row.setPadding(20, 0, 20, 0);
-            row.setLayoutParams(rowParams);
-
-            TextView pointLabel = new TextView(this);
-            pointLabel.setText(R.string.point_label);
-            pointLabel.setPadding(3, 3, 10, 3);
-
-            EditText xPoint = new EditText(this);
-            xPoint.setWidth(100);
-            xPoint.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-            xPoint.setHint(R.string.x_coordinate_hint);
-
-            EditText yPoint = new EditText(this);
-            yPoint.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-            yPoint.setWidth(100);
-            yPoint.setHint(R.string.y_coordinate_hint);
-
-            row.addView(pointLabel);
-            row.addView(xPoint);
-            row.addView(yPoint);
-
-            coordinateInputs.add(xPoint);
-            coordinateInputs.add(yPoint);
-
-            table.addView(row);
-        }
-        Button doneButton = new Button(this);
-        LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        doneButton.setLayoutParams(buttonParams);
-        doneButton.setText(R.string.done_label);
-        doneButton.setPadding(60, 0, 60, 0);
-        doneButton.setGravity(Gravity.CENTER);
-        doneButton.setOnClickListener(new View.OnClickListener() {
+        pointPickerView.setOnDoneClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PointPickerActivity.this, CasteljauTreeActivity.class);
-                double[] coordinates = new double[coordinateInputs.size()];
-                for(int i = 0; i < coordinateInputs.size(); i++) {
-                    coordinates[i] = Double.valueOf(coordinateInputs.get(i).getText().toString());
-                }
-                intent.putExtra("coordinates", coordinates);
+                getCurvyApplication().addPointList(getPointListFromView());
                 startActivity(intent);
                 finish();
             }
         });
-        root.addView(table);
-        root.addView(doneButton);
+    }
 
-        setContentView(root);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getCurvyApplication().hasPoints()) {
+            pointPickerView.setPointList(getCurvyApplication().getPointList());
+        }
+    }
+
+    private List<Point2D> getPointListFromView() {
+        List<EditText> coordinateTexts = pointPickerView.getCoordinateTexts();
+        List<Point2D> pointList = new ArrayList<Point2D>(coordinateTexts.size() / 2);
+        for(int i = 0; i < coordinateTexts.size(); i += 2) {
+            String xString = coordinateTexts.get(i).getText().toString();
+            String yString = coordinateTexts.get(i + 1).getText().toString();
+            if(xString.isEmpty() || yString.isEmpty()) {
+                continue;
+            }
+            try {
+                double xCoordinate = Double.valueOf(xString);
+                double yCoordinate = Double.valueOf(yString);
+                Point2D point = new Point2D(xCoordinate, yCoordinate);
+                pointList.add(point);
+//                getCurvyApplication().addPoint(point);
+            } catch (NumberFormatException e) {
+                // don't add the point
+            }
+        }
+        return pointList;
     }
 }

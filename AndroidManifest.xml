@@ -3,7 +3,7 @@
       package="net.mobilespirit.curvy"
       android:versionCode="1"
       android:versionName="1.0">
-    <application android:label="Curvy" android:icon="@drawable/icon" android:debuggable="true" >
+    <application android:label="Curvy" android:icon="@drawable/icon" android:debuggable="true" android:name=".application.CurvyApplication">
         <activity android:name=".activity.MainActivity"
                   android:label="@string/app_name">
             <intent-filter>

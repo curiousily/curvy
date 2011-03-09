@@ -4,4 +4,5 @@
     <string name="x_coordinate_hint">x</string>
     <string name="y_coordinate_hint">y</string>
     <string name="done_label">Done</string>
+    <string name="add_point_label">Add Point</string>
 </resources>

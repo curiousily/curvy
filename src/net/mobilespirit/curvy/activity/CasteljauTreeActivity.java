@@ -1,6 +1,5 @@
 package net.mobilespirit.curvy.activity;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,7 +17,6 @@ import net.mobilespirit.curvy.domain.curve.BezierCurve;
 import net.mobilespirit.curvy.domain.tree.CasteljauTree;
 import net.mobilespirit.curvy.painter.CasteljauTreePainter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +26,7 @@ import java.util.List;
  * Time: 16:18
  * Package: net.mobilespirit.curvy.activity
  */
-public class CasteljauTreeActivity extends Activity {
+public class CasteljauTreeActivity extends BaseCurvyActivity {
 
     private static final int PROGRESS_DIALOG_ID = 1;
     private static final String IMAGE_TITLE = "casteljau";
@@ -54,7 +52,6 @@ public class CasteljauTreeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         showDialog(PROGRESS_DIALOG_ID);
     }
 
@@ -77,13 +74,8 @@ public class CasteljauTreeActivity extends Activity {
         switch (id) {
             case PROGRESS_DIALOG_ID:
                 progressDialog.setProgress(0);
-                double[] coordinates = getIntent().getDoubleArrayExtra("coordinates");
-                Double[] newCoordinates = new Double[coordinates.length];
-                for(int i = 0; i < coordinates.length;i++) {
-                    newCoordinates[i] = coordinates[i];
-                }
                 BuildCasteljauTreeTask task = new BuildCasteljauTreeTask();
-                task.execute(newCoordinates);
+                task.execute(getCurvyApplication().getPointList());
         }
     }
 
@@ -108,13 +100,12 @@ public class CasteljauTreeActivity extends Activity {
         startActivityForResult(intent, VIEW_IMAGE);
     }
 
-    private class BuildCasteljauTreeTask extends AsyncTask<Double[], Integer, String> {
+    private class BuildCasteljauTreeTask extends AsyncTask<List<Point2D>, Integer, String> {
 
         @Override
-        protected String doInBackground(Double[]... coordinatesArray) {
-            List<Point2D> pointList = buildPointList(coordinatesArray[0]);
+        protected String doInBackground(List<Point2D>... lists) {
             sendProgressMessage(R.string.building_coordinates_done);
-            BezierCurve curve = new BezierCurve(0.4, pointList);
+            BezierCurve curve = new BezierCurve(0.4, lists[0]);
             CasteljauTree tree = curve.buildCasteljauTree();
             sendProgressMessage(R.string.building_tree_done);
             Bitmap bitmap = CasteljauTreePainter.createBitmap(tree);
@@ -122,15 +113,6 @@ public class CasteljauTreeActivity extends Activity {
             imagePath = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, IMAGE_TITLE, IMAGE_DESCRIPTION);
             sendProgressMessage(R.string.saving_image_done);
             return imagePath;
-        }
-
-        private List<Point2D> buildPointList(Double[] coordinates) {
-            List<Point2D> pointList = new ArrayList<Point2D>(coordinates.length);
-            for(int i = 0; i < coordinates.length; i+=2) {
-                Point2D point = new Point2D(coordinates[i], coordinates[i + 1]);
-                pointList.add(point);
-            }
-            return pointList;
         }
 
         private void sendProgressMessage(int resourceId) {

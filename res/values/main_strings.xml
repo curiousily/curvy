@@ -2,5 +2,6 @@
 <resources>
     <string name="casteljau_button">Casteljau Algorithm</string>
     <string name="increase_degree_button">Increase Degree</string>
+    <string name="edit_points_button">Edit Points</string>
     <string name="exit_button">Exit</string>
 </resources>
