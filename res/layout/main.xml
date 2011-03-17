@@ -9,13 +9,13 @@
                 android:text="@string/casteljau_button"
                 android:onClick="casteljauAlgorithmHandler"/>
         <Button style="@style/menu_button"
-                android:text="@string/increase_degree_button"
-                android:onClick="increaseDegreeHandler"/>
-        <Button android:id="@+id/edit_points_button"
-                style="@style/menu_button"
-                android:text="@string/edit_points_button"
+                android:text="@string/edit_points_label"
                 android:onClick="editPointsHandler"/>
-        <Button style="@style/menu_button"
-                android:text="@string/exit_button"/>
+        <!--<Button style="@style/menu_button"-->
+                <!--android:text="@string/increase_degree_button"-->
+                <!--android:onClick="increaseDegreeHandler"/>-->
+        <!--<Button style="@style/menu_button"-->
+                <!--android:text="@string/exit_button"-->
+                <!--android:onClick="exitHandler"/>-->
     </LinearLayout>
 </LinearLayout>

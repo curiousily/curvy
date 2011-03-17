@@ -9,9 +9,11 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.Window;
 import net.mobilespirit.curvy.R;
+import net.mobilespirit.curvy.application.CurvyApplication;
 import net.mobilespirit.curvy.domain.point.Point2D;
 import net.mobilespirit.curvy.domain.curve.BezierCurve;
 import net.mobilespirit.curvy.domain.tree.CasteljauTree;
@@ -105,7 +107,7 @@ public class CasteljauTreeActivity extends BaseCurvyActivity {
         @Override
         protected String doInBackground(List<Point2D>... lists) {
             sendProgressMessage(R.string.building_coordinates_done);
-            BezierCurve curve = new BezierCurve(0.4, lists[0]);
+            BezierCurve curve = new BezierCurve(getCurveCoefficient(), lists[0]);
             CasteljauTree tree = curve.buildCasteljauTree();
             sendProgressMessage(R.string.building_tree_done);
             Bitmap bitmap = CasteljauTreePainter.createBitmap(tree);

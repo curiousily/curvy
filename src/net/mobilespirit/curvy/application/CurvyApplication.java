@@ -28,10 +28,6 @@ public class CurvyApplication extends Application {
         this.pointList = pointList;
     }
 
-    public void addPoint(Point2D point) {
-        pointList.add(point);
-    }
-
     public void addPointList(Collection<Point2D> pointList) {
         this.pointList.addAll(pointList);
     }

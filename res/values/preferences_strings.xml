@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="initial_point_count">Initial point count</string>
+    <string name="curve_coefficient">Curve coefficient</string>
+    <string name="preferences_label">Settings</string>
+</resources>

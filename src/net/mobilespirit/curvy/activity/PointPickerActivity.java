@@ -1,10 +1,16 @@
 package net.mobilespirit.curvy.activity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
+import net.mobilespirit.curvy.R;
+import net.mobilespirit.curvy.application.CurvyApplication;
 import net.mobilespirit.curvy.domain.point.Point2D;
 import net.mobilespirit.curvy.view.PointPickerView;
 
@@ -25,9 +31,8 @@ public class PointPickerActivity extends BaseCurvyActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
-        int pointCount = getIntent().getIntExtra("pointCount", 3);
-        pointPickerView = new PointPickerView(this, pointCount);
+
+        pointPickerView = new PointPickerView(this, getPointCount());
         setContentView(pointPickerView);
         pointPickerView.setOnAddPointClickListener(new View.OnClickListener() {
 
@@ -41,12 +46,21 @@ public class PointPickerActivity extends BaseCurvyActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PointPickerActivity.this, CasteljauTreeActivity.class);
-                getCurvyApplication().addPointList(getPointListFromView());
-                startActivity(intent);
+                getCurvyApplication().setPointList(getPointListFromView());
+                if(getCurvyApplication().hasPoints()) {
+                    setResult(Activity.RESULT_OK);
+                } else {
+                    setResult(Activity.RESULT_CANCELED);
+                }
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getCurvyApplication().setPointList(getPointListFromView());
     }
 
     @Override
@@ -71,7 +85,6 @@ public class PointPickerActivity extends BaseCurvyActivity {
                 double yCoordinate = Double.valueOf(yString);
                 Point2D point = new Point2D(xCoordinate, yCoordinate);
                 pointList.add(point);
-//                getCurvyApplication().addPoint(point);
             } catch (NumberFormatException e) {
                 // don't add the point
             }

@@ -2,6 +2,7 @@ package net.mobilespirit.curvy.view;
 
 import android.content.Context;
 import android.text.InputType;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -26,7 +27,7 @@ public class PointPickerView extends ScrollView{
     private TableLayout table;
 
     private TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-    private LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    private LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     private Button addPointButton;
     private Button doneButton;
 
@@ -39,10 +40,26 @@ public class PointPickerView extends ScrollView{
         table = createTable();
         root.addView(table);
         addTableRows();
+
         addPointButton = createAddPointButton();
-        root.addView(addPointButton);
         doneButton = createDoneButton();
-        root.addView(doneButton);
+
+        RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        RelativeLayout buttonLayout = new RelativeLayout(context);
+        buttonLayout.setLayoutParams(buttonLayoutParams);
+
+        RelativeLayout.LayoutParams addPointParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        addPointParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+
+        buttonLayout.addView(addPointButton, addPointParams);
+
+        RelativeLayout.LayoutParams donePointParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        donePointParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+        buttonLayout.addView(doneButton, donePointParams);
+
+        root.addView(buttonLayout);
         addView(root);
     }
 
@@ -62,23 +79,33 @@ public class PointPickerView extends ScrollView{
     }
 
     private void addTableRow(boolean requestFocusOnComplete) {
+        addTableRow(requestFocusOnComplete, null);
+    }
+
+    private void addTableRow(boolean requestFocusOnComplete, Point2D point) {
         TableRow row = new TableRow(context);
-        row.setPadding(20, 0, 20, 0);
+        row.setPadding(asPx(20), 0, asPx(20), 0);
         row.setLayoutParams(rowParams);
 
         TextView pointLabel = new TextView(context);
         pointLabel.setText(R.string.point_label);
-        pointLabel.setPadding(3, 3, 10, 3);
+        pointLabel.setPadding(asPx(3), asPx(3), asPx(10), asPx(3));
 
         EditText xPoint = new EditText(context);
-        xPoint.setWidth(100);
-        xPoint.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        xPoint.setHint(R.string.x_coordinate_hint);
+        xPoint.setWidth(asPx(100));
+        if(point != null) {
+            xPoint.setText(String.valueOf(point.x()));
+        } else {
+            xPoint.setHint(R.string.x_coordinate_hint);
+        }
 
         EditText yPoint = new EditText(context);
-        yPoint.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
-        yPoint.setWidth(100);
-        yPoint.setHint(R.string.y_coordinate_hint);
+        yPoint.setWidth(asPx(100));
+        if(point != null) {
+            yPoint.setText(String.valueOf(point.y()));
+        } else {
+            yPoint.setHint(R.string.y_coordinate_hint);
+        }
 
         row.addView(pointLabel);
         row.addView(xPoint);
@@ -125,6 +152,7 @@ public class PointPickerView extends ScrollView{
     private Button createDoneButton() {
         Button button = new Button(context);
         button.setLayoutParams(buttonParams);
+        button.setPadding(asPx(60), 0, asPx(60), 0);
         button.setText(R.string.done_label);
         return button;
     }
@@ -132,12 +160,24 @@ public class PointPickerView extends ScrollView{
     private Button createAddPointButton() {
         Button button = new Button(context);
         button.setLayoutParams(buttonParams);
+        button.setPadding(asPx(50), 0, asPx(50), 0);
         button.setText(R.string.add_point_label);
         return button;
     }
 
 
     public void setPointList(List<Point2D> pointList) {
-        // @TODO add point coordinates to the view
+        table.removeAllViews();
+        for(Point2D point: pointList) {
+            addPoint(point);
+        }
+    }
+
+    private void addPoint(Point2D point) {
+        addTableRow(false, point);
+    }
+
+    private int asPx(int dips) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dips, getResources().getDisplayMetrics());
     }
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+            android:key="coefficient"
+            android:inputType="numberDecimal"
+            android:title="@string/curve_coefficient" />
+    <EditTextPreference
+            android:key="point_count"
+            android:inputType="number"
+            android:title="@string/initial_point_count" />
+</PreferenceScreen>

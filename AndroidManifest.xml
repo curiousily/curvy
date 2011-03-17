@@ -13,5 +13,6 @@
         </activity>
         <activity android:name=".activity.PointPickerActivity"/>
         <activity android:name=".activity.CasteljauTreeActivity"/>
+        <activity android:name=".activity.EditPreferencesActivity" android:label="@string/preferences_label"/>
     </application>
 </manifest> 

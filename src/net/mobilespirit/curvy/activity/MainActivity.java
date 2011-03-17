@@ -1,5 +1,6 @@
 package net.mobilespirit.curvy.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,8 @@ import net.mobilespirit.curvy.R;
 public class MainActivity extends BaseCurvyActivity
 {
 
+    private static final int PICK_POINTS = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -25,27 +28,40 @@ public class MainActivity extends BaseCurvyActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        View editPointsButton = findViewById(R.id.edit_points_button);
-        int visibility = View.GONE;
-        if(getCurvyApplication().hasPoints()) {
-            visibility = View.VISIBLE;
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PICK_POINTS:
+                if(resultCode == Activity.RESULT_OK) {
+                    startCasteljauTreeActivity();
+                }
         }
-        editPointsButton.setVisibility(visibility);
+        super.onActivityResult(requestCode, resultCode, data);    
     }
 
     public void casteljauAlgorithmHandler(View view) {
-        Intent intent = new Intent(this, PointPickerActivity.class);
-        startActivity(intent);
+        if(getCurvyApplication().hasPoints()) {
+            startCasteljauTreeActivity();
+        } else {
+            Intent intent = new Intent(this, PointPickerActivity.class);
+            startActivityForResult(intent, PICK_POINTS);
+        }
     }
 
-    public void increaseDegreeHandler(View view) {
-        
+    private void startCasteljauTreeActivity() {
+        Intent intent = new Intent(this, CasteljauTreeActivity.class);
+        startActivity(intent);
     }
 
     public void editPointsHandler(View view) {
         Intent intent = new Intent(this, PointPickerActivity.class);
         startActivity(intent);
     }
+
+//    public void increaseDegreeHandler(View view) {
+//
+//    }
+
+//    public void exitHandler(View view) {
+//
+//    }
 }
