@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import net.mobilespirit.curvy.R;
@@ -40,27 +41,27 @@ public class PointPickerView extends ScrollView{
         table = createTable();
         root.addView(table);
         addTableRows();
+        root.addView(createButtonLayout());
+        addView(root);
+    }
 
+    private View createButtonLayout() {
         addPointButton = createAddPointButton();
         doneButton = createDoneButton();
-
         RelativeLayout.LayoutParams buttonLayoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout layout = new RelativeLayout(context);
+        layout.setLayoutParams(buttonLayoutParams);
 
-        RelativeLayout buttonLayout = new RelativeLayout(context);
-        buttonLayout.setLayoutParams(buttonLayoutParams);
+        RelativeLayout.LayoutParams addButtonParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        addButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 
-        RelativeLayout.LayoutParams addPointParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        addPointParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        layout.addView(addPointButton, addButtonParams);
 
-        buttonLayout.addView(addPointButton, addPointParams);
+        RelativeLayout.LayoutParams doneButtonParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        doneButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
-        RelativeLayout.LayoutParams donePointParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        donePointParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-
-        buttonLayout.addView(doneButton, donePointParams);
-
-        root.addView(buttonLayout);
-        addView(root);
+        layout.addView(doneButton, doneButtonParams);
+        return layout;
     }
 
     private void addTableRows() {
