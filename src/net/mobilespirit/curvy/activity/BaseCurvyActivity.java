@@ -53,19 +53,22 @@ public class BaseCurvyActivity extends Activity {
         }
     }
 
-    protected int getPointCount() {
+    private String getFromPreferences(String key, String defaultValue) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString(key, defaultValue);
+    }
+
+    protected int getPointCount() {
         try {
-            return Integer.valueOf(preferences.getString(POINT_COUNT_KEY, "dummy"));
+            return Integer.valueOf(getFromPreferences(POINT_COUNT_KEY, "dummy"));
         } catch (NumberFormatException e) {
             return DEFAULT_POINT_COUNT;
         }
     }
 
     protected float getCurveCoefficient() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         try {
-            return Float.valueOf(preferences.getString(COEFFICIENT_KEY, "dummy"));
+            return Float.valueOf(getFromPreferences(COEFFICIENT_KEY, "dummy"));
         } catch (NumberFormatException e) {
             return DEFAULT_CURVE_COEFFICIENT;
         }
