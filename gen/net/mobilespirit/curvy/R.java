@@ -26,37 +26,37 @@ public final class R {
         public static final int application_menu=0x7f070000;
     }
     public static final class string {
-        public static final int add_point_label=0x7f050010;
-        public static final int app_name=0x7f050014;
-        public static final int building_coordinates_done=0x7f050004;
-        public static final int building_image_done=0x7f050006;
-        public static final int building_tree_done=0x7f050005;
-        public static final int building_tree_init=0x7f050003;
-        public static final int building_tree_progress_title=0x7f050002;
-        public static final int casteljau_button=0x7f050008;
-        public static final int curve_coefficient=0x7f050012;
-        public static final int done_label=0x7f05000f;
-        public static final int edit_points_button=0x7f05000a;
+        public static final int add_point_label=0x7f050011;
+        public static final int app_name=0x7f050002;
+        public static final int building_coordinates_done=0x7f050005;
+        public static final int building_image_done=0x7f050007;
+        public static final int building_tree_done=0x7f050006;
+        public static final int building_tree_init=0x7f050004;
+        public static final int building_tree_progress_title=0x7f050003;
+        public static final int casteljau_button=0x7f050009;
+        public static final int curve_coefficient=0x7f050013;
+        public static final int done_label=0x7f050010;
+        public static final int edit_points_button=0x7f05000b;
         public static final int edit_points_label=0x7f050000;
-        public static final int exit_button=0x7f05000b;
-        public static final int increase_degree_button=0x7f050009;
-        public static final int initial_point_count=0x7f050011;
-        public static final int point_label=0x7f05000c;
-        public static final int preferences_label=0x7f050013;
-        public static final int saving_image_done=0x7f050007;
+        public static final int exit_button=0x7f05000c;
+        public static final int increase_degree_button=0x7f05000a;
+        public static final int initial_point_count=0x7f050012;
+        public static final int point_label=0x7f05000d;
+        public static final int preferences_label=0x7f050014;
+        public static final int saving_image_done=0x7f050008;
         public static final int settings=0x7f050001;
-        public static final int x_coordinate_hint=0x7f05000d;
-        public static final int y_coordinate_hint=0x7f05000e;
+        public static final int x_coordinate_hint=0x7f05000e;
+        public static final int y_coordinate_hint=0x7f05000f;
     }
     public static final class style {
-        public static final int fill_both=0x7f060006;
-        public static final int fill_width_wrap_height=0x7f060003;
-        public static final int logo=0x7f060001;
-        public static final int menu_button=0x7f060002;
-        public static final int menu_layout=0x7f060000;
-        public static final int vertical_linear_layout=0x7f060007;
-        public static final int wrap_both=0x7f060005;
-        public static final int wrap_width_fill_height=0x7f060004;
+        public static final int fill_both=0x7f060003;
+        public static final int fill_width_wrap_height=0x7f060000;
+        public static final int logo=0x7f060006;
+        public static final int menu_button=0x7f060007;
+        public static final int menu_layout=0x7f060005;
+        public static final int vertical_linear_layout=0x7f060004;
+        public static final int wrap_both=0x7f060002;
+        public static final int wrap_width_fill_height=0x7f060001;
     }
     public static final class xml {
         public static final int preferences=0x7f040000;

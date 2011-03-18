@@ -42,6 +42,8 @@ public class CasteljauTreeActivity extends BaseCurvyActivity {
 
     private ProgressDialog progressDialog;
 
+    private BuildCasteljauTreeTask task;
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
@@ -49,12 +51,30 @@ public class CasteljauTreeActivity extends BaseCurvyActivity {
             progressDialog.setMessage(data.getString(PROGRESS_KEY));
         }
     };
+    private boolean notShowingImage = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         showDialog(PROGRESS_DIALOG_ID);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(!task.isCancelled()) {
+            task.cancel(true);
+        }
+        if(notShowingImage) {
+            deleteImage();
+        }
+        dismissDialog(PROGRESS_DIALOG_ID);
     }
 
     @Override
@@ -76,7 +96,7 @@ public class CasteljauTreeActivity extends BaseCurvyActivity {
         switch (id) {
             case PROGRESS_DIALOG_ID:
                 progressDialog.setProgress(0);
-                BuildCasteljauTreeTask task = new BuildCasteljauTreeTask();
+                task = new BuildCasteljauTreeTask();
                 task.execute(getCurvyApplication().getPointList());
         }
     }
@@ -86,19 +106,27 @@ public class CasteljauTreeActivity extends BaseCurvyActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case VIEW_IMAGE:
-                getContentResolver().delete(Uri.parse(imagePath), null, null);
+                notShowingImage = true;
+                deleteImage();
                 finish();
             break;
         }
     }
 
+    private void deleteImage() {
+        if(imagePath != null) {
+            getContentResolver().delete(Uri.parse(imagePath), null, null);
+            imagePath = null;
+        }
+    }
+
     private void onBuildComplete(String imagePath) {
-        dismissDialog(PROGRESS_DIALOG_ID);
         this.imagePath = imagePath;
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
 
         intent.setDataAndType(Uri.parse(imagePath), "image/png");
+        notShowingImage = false;
         startActivityForResult(intent, VIEW_IMAGE);
     }
 
